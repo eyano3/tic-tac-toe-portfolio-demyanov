@@ -60,6 +60,10 @@ public class TicTacToeGame {
         return board[position - 1];
     }
 
+    public char getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public boolean isGameOver() {
         return gameOver;
     }
