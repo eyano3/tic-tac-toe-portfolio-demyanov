@@ -56,6 +56,18 @@ public class TicTacToeGame {
         return board[position - 1] == empty;
     }
 
+    public boolean isWinningMove(char player, int position) {
+        if (!isValidMove(position)) {
+            return false;
+        }
+
+        board[position - 1] = player;
+        boolean winningMove = hasPlayerWon(player);
+        board[position - 1] = empty;
+
+        return winningMove;
+    }
+
     public char getCell(int position) {
         return board[position - 1];
     }
