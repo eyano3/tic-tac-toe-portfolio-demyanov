@@ -8,6 +8,7 @@ public class TicTacToeGame {
     private char currentPlayer;
     private boolean gameOver;
     private char winner;
+    private int previousMove;
 
     public TicTacToeGame() {
         board = new char[9];
@@ -22,6 +23,7 @@ public class TicTacToeGame {
         currentPlayer = 'X';
         gameOver = false;
         winner = empty;
+        previousMove = 0;
     }
 
     public boolean makeMove(int position) {
@@ -30,6 +32,7 @@ public class TicTacToeGame {
         }
 
         board[position - 1] = currentPlayer;
+        previousMove = position;
 
         if (hasPlayerWon(currentPlayer)) {
             gameOver = true;
@@ -71,6 +74,8 @@ public class TicTacToeGame {
     public char getCell(int position) {
         return board[position - 1];
     }
+
+    public int getPreviousMove() {return previousMove;}
 
     public char getCurrentPlayer() {
         return currentPlayer;

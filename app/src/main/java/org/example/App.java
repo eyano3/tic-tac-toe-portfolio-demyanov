@@ -9,8 +9,8 @@ public class App {
   private static final String invalidMoveMessage = "That is not a valid move. Try again: ";
 
   private static final Scanner scanner = new Scanner(System.in);
-  private static final OpportunisticComputerPlayer computerPlayer =
-          new OpportunisticComputerPlayer();
+  private static final OpportunisticComputerPlayer computerPlayer = new OpportunisticComputerPlayer();
+  private static final AdjacentComputerPlayer adjacentComputerPlayer = new AdjacentComputerPlayer();
 
   private static int gameType;
 
@@ -72,8 +72,10 @@ public class App {
       System.out.println("What kind of game would you like to play?");
       System.out.println();
       System.out.println("1. Human vs. Human");
-      System.out.println("2. Human vs. Computer");
-      System.out.println("3. Computer vs. Human");
+      System.out.println("2. Human vs. Opportunistic Computer");
+      System.out.println("3. Opportunistic Computer vs. Human");
+      System.out.println("4. Human vs. Adjacent Computer");
+      System.out.println("5. Adjacent Computer vs. Human");
       System.out.println();
       System.out.print("What is your selection? : ");
 
@@ -85,13 +87,23 @@ public class App {
       }
 
       if (input.equals("2")) {
-        System.out.println("Great! The computer will go second.");
+        System.out.println("Great! The opportunistic computer will go second.");
         return 2;
       }
 
       if (input.equals("3")) {
-        System.out.println("Great! The computer will go first.");
+        System.out.println("Great! The opportunistic computer will go first.");
         return 3;
+      }
+
+      if (input.equals("4")) {
+        System.out.println("Great! The adjacent computer will go second.");
+        return 4;
+      }
+
+      if (input.equals("5")) {
+        System.out.println("Great! The adjacent computer will go first.");
+        return 5;
       }
 
       System.out.println("That is not a valid input.");
@@ -99,15 +111,24 @@ public class App {
   }
 
   private static boolean isComputerTurn() {
-    if (gameType == 2 && game.getCurrentPlayer() == 'O') {
+    if ((gameType == 2 || gameType == 4)
+            && game.getCurrentPlayer() == 'O') {
       return true;
     }
 
-    return gameType == 3 && game.getCurrentPlayer() == 'X';
+    return (gameType == 3 || gameType == 5)
+            && game.getCurrentPlayer() == 'X';
   }
 
   private static void makeComputerMove() {
-    int move = computerPlayer.getMove(game);
+    int move;
+
+    if (gameType == 4 || gameType == 5) {
+      move = adjacentComputerPlayer.getMove(game);
+    } else {
+      move = computerPlayer.getMove(game);
+    }
+
     game.makeMove(move);
   }
 
